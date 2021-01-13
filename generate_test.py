@@ -38,4 +38,3 @@ name = input()
 if ans == '1':
     print("Writing file in test-instances/graph-instances")
     new_file = open(f"test-instances/graph-instances/{name}.bul", "w")
-    
