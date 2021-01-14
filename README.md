@@ -57,7 +57,7 @@ Other commands include:
 
 ```./bule.sh version``` - show bule version (located inside solvers directory)
 
-All other bule commands do not work with bule.sh. To use advanced commands, use the original bule binary in ```solvers/``` directory.
+All other bule commands do not work with bule.sh. To use advanced commands, check out the original bule binary in ```solvers/``` directory.
 Flags other than ```-g``` are not supported with bule.sh.
 
 ## Versions
