@@ -67,7 +67,15 @@ dom[X1], dom[X2], X1 < X2 :: ~q(X1,Y,Z), ~q(X2,Y,Z).
 % implied by 30 (or 27 respectively)
 boxBegin[ROOTX,ROOTY], boxOffset[X1,Y1], boxOffset[X2,Y2], X1<X2, Y1!=Y2
 	:: ~q(ROOTX+X1,ROOTY+Y1,Z), ~q(ROOTX+X2,ROOTY+Y2,Z).
+
+% Board inputs to test satisfiability
 '''
+sudoku_instruction = '''
+Print tile inputs in CSV format in the form X-Y-Z where
+X and Y represents the coordinates of tile and Z represents
+the value (1 - 9) of that tile.
+Example input: 1-1-2,3-3-4,6-8-1
+\nInput:'''
 
 ########################################################
 # Functions
@@ -96,9 +104,12 @@ def write_vertex(num_vertex, name, budget, cmd):
       new_file.write(f'~s(V{i}), ')
     new_file.write(f'~s(V{budget}).\n')
 
-def write_sudoku(name):
+def write_sudoku(name, cmd):
   with open(f"sudoku/{name}.bul", "w") as new_file:
     new_file.write(sudoku_template)
+    for i in cmd:
+      temp = i.split('-')
+      new_file.write(f'q({temp[0]},{temp[1]},{temp[2]}).\n')
 
 ########################################################
 # Logic
@@ -129,4 +140,10 @@ if ans == '1':
   print("Done")
 
 elif ans == '2':
-  write_sudoku('test')
+  print(sudoku_instruction, end=" ")
+  cmd = input().split(',')
+  print("\nType name of file (without extension):", end=" ")
+  name = input()
+  print("\nWriting file in sudoku/\n")
+  write_sudoku(name, cmd)
+  print("Done")
