@@ -15,27 +15,35 @@ import math
 ########################################################
 
 intro = '''
-What test file would you like to create?
-
+What test file would you like to create?\n
 1: vertex-cover
-2: Sudoku
-
+2: Sudoku\n
 Input:'''
+
 vertex_instruction = '''
 Print edges in CSV format. For example, an edge between vertex 4 and 5
 should be denoted as 4-5. 
 Example input: 4-5,6-3,5-4 
+\nInput:'''
 
-Input:'''
+vertex_intro = f'''\
+% Naive vertex-cover encoding\n
+% Represent vertex domain and connected edges
+'''
+
 options = ['1', '2']
+vertex_info = '''
+\n% Rules for covering edges
+edge[U, V] :: s(U), s(V).\n
+'''
 
 ########################################################
 # Functions
 ########################################################
 
 def write_vertex(num_vertex, name, budget, cmd):
-  with open(f"test-instances/graph-instances/{name}.bul", "w") as new_file:
-    new_file.write(f'vertex[1..{num_vertex}].\n')
+  with open(f"vertex-cover/{name}.bul", "w") as new_file:
+    new_file.write(vertex_intro + f"vertex[1..{num_vertex}].\n")
     for i in range(math.ceil(len(cmd)/4)):
       for i in range(4):
         if len(cmd) <= 0:
@@ -43,7 +51,8 @@ def write_vertex(num_vertex, name, budget, cmd):
         temp = cmd[0].split('-')
         cmd.pop(0)
         new_file.write(f'edge[{temp[0]}, {temp[1]}]. ')
-      new_file.write('\n')
+      new_file.write(vertex_info + 
+        f'% Rules for budget constraints (budget = {budget - 1})\n')
     for i in range(1, budget + 1):
       new_file.write(f'vertex[V{i}], ')
     new_file.write(f'\n    ')
@@ -78,7 +87,7 @@ if ans == '1':
   cmd = input().split(',')
   print("\nType name of file (without extension):", end=" ")
   name = input()
-  print("\nWriting file in test-instances/graph-instances\n")
+  print("\nWriting file in vertex-cover/\n")
   write_vertex(num_vertex, name, budget, cmd)
   print("Done")
 # %%%%not over-budget. k=3

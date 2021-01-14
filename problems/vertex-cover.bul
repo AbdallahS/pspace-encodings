@@ -1,8 +1,0 @@
-% Naive vertex-cover solver 
-
-% Rules for covering edges
-edge[U, V] :: s(U), s(V).
-
-% Rule for vertex budget => will be created dynamically with 
-% vertex-cover generator file
-
