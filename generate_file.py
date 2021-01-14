@@ -33,8 +33,40 @@ vertex_intro = f'''\
 
 options = ['1', '2']
 vertex_info = '''
-\n% Rules for covering edges
+% Rules for covering edges
 edge[U, V] :: s(U), s(V).\n
+'''
+
+sudoku_template = '''\
+%%% Bule rules for Sudoku game
+
+% Set up domain for Sudoku board 
+dom[1..9].
+boxOffset[0..2,0..2].
+boxBegin[1,1]. boxBegin[1,4]. boxBegin[1,7]. boxBegin[4,1]. boxBegin[4,4]. 
+boxBegin[4,7]. boxBegin[7,1]. boxBegin[7,4]. boxBegin[7,7].
+
+%% Game rules
+% in every cell at least 1 val
+dom[X], dom[Y] :: q(X,Y,Z) : dom[Z].
+
+% Each val in at least 1 cell
+dom[Z] :: q(X,Y,Z) : dom[X] : dom[Y].
+
+% Each cell contains no more than 1 val
+dom[X],dom[Y], dom[Z1], dom[Z2], Z1 < Z2 :: ~q(X,Y,Z1), ~q(X,Y,Z2). 
+
+% No two same vals in a column
+dom[X1], dom[X2], X1 < X2 :: ~q(X1,Y,Z), ~q(X2,Y,Z).
+
+% No two same vals in a row
+%dom[Y1], dom[Y2], Y1 < Y2 :: ~q(X,Y1,Z), ~q(X,Y2,Z).
+
+% No two same vals in a single box.
+% Note that we do not need the rules for X1==X2 (or Y1==Y2) because they are
+% implied by 30 (or 27 respectively)
+boxBegin[ROOTX,ROOTY], boxOffset[X1,Y1], boxOffset[X2,Y2], X1<X2, Y1!=Y2
+	:: ~q(ROOTX+X1,ROOTY+Y1,Z), ~q(ROOTX+X2,ROOTY+Y2,Z).
 '''
 
 ########################################################
@@ -51,8 +83,9 @@ def write_vertex(num_vertex, name, budget, cmd):
         temp = cmd[0].split('-')
         cmd.pop(0)
         new_file.write(f'edge[{temp[0]}, {temp[1]}]. ')
-      new_file.write(vertex_info + 
-        f'% Rules for budget constraints (budget = {budget - 1})\n')
+      new_file.write("\n")
+    new_file.write(vertex_info + 
+      f'% Rules for budget constraints (budget = {budget - 1})\n')
     for i in range(1, budget + 1):
       new_file.write(f'vertex[V{i}], ')
     new_file.write(f'\n    ')
@@ -62,6 +95,10 @@ def write_vertex(num_vertex, name, budget, cmd):
     for i in range(1, budget):
       new_file.write(f'~s(V{i}), ')
     new_file.write(f'~s(V{budget}).\n')
+
+def write_sudoku(name):
+  with open(f"sudoku/{name}.bul", "w") as new_file:
+    new_file.write(sudoku_template)
 
 ########################################################
 # Logic
@@ -90,12 +127,6 @@ if ans == '1':
   print("\nWriting file in vertex-cover/\n")
   write_vertex(num_vertex, name, budget, cmd)
   print("Done")
-# %%%%not over-budget. k=3
-# %vertex[A], vertex[B], vertex[C], vertex[D], A < B, B < C, C < D :: ~s(A), ~s(B), ~s(C), ~s(D).
-# %%%%budget 4
-# vertex[A], vertex[B], vertex[C], vertex[D], vertex[E],
-#   A < B, B < C, C < D, D < E ::
-#       ~s(A), ~s(B), ~s(C), ~s(D), ~s(E).
-# %dom[Z] :: q(Y,Z) : dom[Y].
-# Test inpuf: 5 vertex 1-2,3-4,4-5,1-2,2-3
-# 1-2,1-3,1-4,1-5,2-3,2-4,2-5,3-4,3-5,4-5
+
+elif ans == '2':
+  write_sudoku('test')
