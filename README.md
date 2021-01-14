@@ -18,6 +18,7 @@ To test created Bule files for boolean satisfiability, run
 ```./bule.sh solve path_to_file```
 
 (Bule.sh is a shell script that returns modified output from original bule binary located in ```solvers``` directory.)
+
 Add an optional ```-g``` flag at <ins>the end of command</ins> to additionally show grounded output. E.g.
 
 ```./bule.sh solve vertex-cover/graph1.bul -g```
@@ -48,7 +49,7 @@ s(4), s(5).
 s UNSAT
 ```
 
-# Useful commands
+## Useful commands
 
 Other commands include:
 
@@ -57,7 +58,7 @@ Other commands include:
 ```./bule.sh version``` - show bule version (located inside solvers directory)
 
 All other bule commands do not work with bule.sh. To use advanced commands, use the original bule binary in ```solvers/``` directory.
-Flags other than ```-g``` are not supported with bule.sh 
+Flags other than ```-g``` are not supported with bule.sh.
 
 ## Versions
 As of current, the file generator can only create bule encodings for sudoku and naive vertex cover problems.
