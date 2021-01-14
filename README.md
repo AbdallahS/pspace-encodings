@@ -21,9 +21,7 @@ As of current, the file generator can only create bule encodings for sudoku and 
 
 ## Attributions
 
-Bule binary from:
-
-https://github.com/vale1410/bule
+Bule binary from: \thttps://github.com/vale1410/bule
 
 Depqbf QBF solver binary from:
 
