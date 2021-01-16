@@ -19,6 +19,18 @@ import re
 # Globals
 ########################################################
 
+temp_file = "temp_" + str(hash("temp"))
+
+ground = f'''
+echo "\n---------- Solver Output -----------\n"
+./bule ground -t=1 -u=0 {temp_file} 2>/dev/null | grep -v '%% Rules:'
+'''
+
+file_output = f'''
+echo "\n----------- File Output ------------\n"
+cat {temp_file}
+'''
+
 ########################################################
 # Functions
 ########################################################
@@ -27,33 +39,43 @@ import re
 # Logic
 ########################################################
 
-# Notes: -o/--output => show concatenated output
-#        -s/--solver => show Solver output
+# Notes: -f/--file => show concatenated file output
+#        -g/--ground => show grounded output
 
 # If arguments less than 2 provided, exit
 if len(sys.argv) < 3:
     print("Usage: ./test [flags] PROBLEM_FILE ... INPUT_FILE ...")
     exit()
 
+# Temporary switches for flags
+
+flag1 = 'echo -n ""'
+flag2 = 'echo -n ""'
+
 # Process commandline arguments
 files = list()
 for i in sys.argv[1:]:
+    if i == '-g' or i == '--ground':
+        flag2 = ground
+    if i == '-f' or i == '--file':
+        flag1 = file_output
     if re.search("[-\w//]*\.[-\w//]*", i):
         files.append(i)
 
 # If incorrect number of files given, exit
 if len(files) != 2:
-    print("Incorrect number of files given")
+    print("Error: Incorrect number of files given", file=sys.stderr)
+    print("Usage: ./test [flags] PROBLEM_FILE ... INPUT_FILE ...")
     exit()
 
 os.system(f'''
-    cat {files[0]} {files[1]} > solvers/temp.bul
+    cat {files[0]} {files[1]} > solvers/{temp_file}
     cd solvers
-    echo "\n---------- Solver Output -----------\n"
-    ./bule ground -t=1 -u=0 temp.bul 2>/dev/null | grep -v '%% Rules:'
+    {flag1}
+    {flag2}
     echo "\n---------- Result Output -----------\n"
-    ./bule solve temp.bul 2>/dev/null | grep "SAT\|UNSAT"
+    ./bule solve {temp_file} 2>/dev/null | grep "SAT\|UNSAT"
     echo ""
-    rm temp.bul
+    rm ./{temp_file}
     cd ..
 ''')
