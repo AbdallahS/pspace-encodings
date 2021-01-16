@@ -1,5 +1,2 @@
 %%% covering edges
 edge[U, V] :: s(U), s(V).
-
-%%% budget requirements => will be dynamically concatenated below
-
