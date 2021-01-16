@@ -27,5 +27,33 @@ import re
 # Logic
 ########################################################
 
-if len(sys.argv) != 3:
-    print("Usage: ./test PROBLEM_FILE INPUT_FILE")
+# Notes: -o/--output => show concatenated output
+#        -s/--solver => show Solver output
+
+# If arguments less than 2 provided, exit
+if len(sys.argv) < 3:
+    print("Usage: ./test [flags] PROBLEM_FILE ... INPUT_FILE ...")
+    exit()
+
+# Process commandline arguments
+files = list()
+for i in sys.argv[1:]:
+    if re.search("[-\w//]*\.[-\w//]*", i):
+        files.append(i)
+
+# If incorrect number of files given, exit
+if len(files) != 2:
+    print("Incorrect number of files given")
+    exit()
+
+os.system(f'''
+    cat {files[0]} {files[1]} > solvers/temp.bul
+    cd solvers
+    echo "\n---------- Solver Output -----------\n"
+    ./bule ground -t=1 -u=0 temp.bul 2>/dev/null | grep -v '%% Rules:'
+    echo "\n---------- Result Output -----------\n"
+    ./bule solve temp.bul 2>/dev/null | grep "SAT\|UNSAT"
+    echo ""
+    rm temp.bul
+    cd ..
+''')
