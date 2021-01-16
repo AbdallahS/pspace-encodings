@@ -74,7 +74,7 @@ s SAT
 
 ## Budget generator for vertex cover
 
-The ```budget``` file located in ```graph-instances``` allows easy constuction of budget constraint in bule.
+The ```budget``` file located in ```graph-instances``` allows easy constuction of budget constraint in bule (for naive encodings).
 
 To execute, change current directory to ```graph-instances``` and run
 
