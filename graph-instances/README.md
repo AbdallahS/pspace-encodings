@@ -1,5 +1,15 @@
 # Note for Sequential (can be deleted later)
 
+Original Sinz Cardinality Constraint for Sequential-counter:
+
+![sinz](https://user-images.githubusercontent.com/65769889/105673913-d3bc3180-5f3a-11eb-99be-6b4b2a46069d.PNG)
+
+Improved Knuth's expression:
+
+![knuth](https://user-images.githubusercontent.com/65769889/105673909-d28b0480-5f3a-11eb-84a0-721b05514062.PNG)
+
+Using Knuth's improved sequential cardinality constraints, vertex cover can be re-expressed.
+Let k = budget, n = num. vertex.
 
 ### Sources
 
