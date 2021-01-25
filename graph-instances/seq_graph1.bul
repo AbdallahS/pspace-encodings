@@ -1,0 +1,5 @@
+%% Sequential-counter encoding of vertex cover based on Knuth's improvement on 
+%% Sinz encoding.
+%% vertex: 4, budget: 2, edges: 1-2, 2-3, 2-4, 1-4 
+%% Expected outcome => SAT 
+
