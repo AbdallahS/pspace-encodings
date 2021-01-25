@@ -1,11 +1,11 @@
 solvers:
   sat:
     default:
-      prog: kissat/kissat
+      prog: ../kissat/kissat
       flags: ""
       type: SAT
   qbf:
     default:
-      prog: depqbf/depqbf
+      prog: ../depqbf/depqbf
       flags: --no-dynamic-nenofex
       type: QBF

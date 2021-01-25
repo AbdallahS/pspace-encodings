@@ -65,8 +65,8 @@ if len(files) != 2:
     exit()
 
 os.system(f'''
-    cat {files[0]} {files[1]} > solvers/{temp_file}
-    cd solvers
+    cat {files[0]} {files[1]} > solvers/bule/{temp_file}
+    cd solvers/bule
     {flag1}
     {flag2}
     echo "\n---------- Result Output -----------\n"
