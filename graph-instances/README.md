@@ -9,7 +9,7 @@ Improved Knuth's expression:
 ![knuth](https://user-images.githubusercontent.com/65769889/105673909-d28b0480-5f3a-11eb-84a0-721b05514062.PNG)
 
 Using Knuth's improved sequential cardinality constraints, vertex cover can be re-expressed.
-Let k = budget, n = num. vertex.
+Let r = budget, n = num. vertex.
 
 ### Sources
 
