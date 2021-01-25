@@ -1,4 +1,28 @@
 edge[U, V] :: s(U), s(V).
 vertex[A], vertex[B], vertex[C], vertex[D], vertex[E], A < B, B < C, C < D, D < E :: ~s(A), ~s(B), ~s(C), ~s(D), ~s(E).
 
-(~s(A) ∧ ~s(B) ∧ ~s(C) ∧ ~s(D)) v (~s(A) ∧ ~s(B) ∧ ~s(C) ∧ ~s(E)) v (~s(A) ∧ ~s(C) ∧ ~s(D) ∧ ~s(E)) v (~s(B) ∧ ~s(C) ∧ ~s(D) ∧ ~s(E)) v (~s(A) ∧ ~s(B) ∧ ~s(D) ∧ ~s(E)) 
+C1 -> (~s(A) ∧ ~s(B) ∧ ~s(C) ∧ ~s(D)) v
+C2 -> (~s(A) ∧ ~s(B) ∧ ~s(C) ∧ ~s(E)) v
+C3 -> (~s(A) ∧ ~s(C) ∧ ~s(D) ∧ ~s(E)) v
+C4 -> (~s(B) ∧ ~s(C) ∧ ~s(D) ∧ ~s(E)) v
+C5 -> (~s(A) ∧ ~s(B) ∧ ~s(D) ∧ ~s(E)) 
+
+y1 <-> (~s(A) ∧ ~s(B) ∧ ~s(C) ∧ ~s(D))
+y2 <-> (y1 v (~s(A) ∧ ~s(B) ∧ ~s(C) ∧ ~s(E)))
+y3 <-> (y2 v (~s(A) ∧ ~s(C) ∧ ~s(D) ∧ ~s(E)))
+y4 <-> (y3 v (~s(B) ∧ ~s(C) ∧ ~s(D) ∧ ~s(E)))
+y5 <-> (y4 v (~s(A) ∧ ~s(B) ∧ ~s(D) ∧ ~s(E)))
+
+ϕ = y5 ∧ (y4 v (~s(A) ∧ ~s(B) ∧ ~s(D) ∧ ~s(E))) ∧
+
+n = 5 k = 3
+n = 6 k = 3
+n = 10 k = 5
+
+clauses: m edge clauses + n!/((k+1)!(n-k-1)!) budget clauses
+
+vs
+
+sequential counter: 2nk + 2n − 3k + 1 clauses and requires (n − 1) · k auxiliary variables
+
+(-v1 v s1,3) ∧ (-v5v-s4,3)
