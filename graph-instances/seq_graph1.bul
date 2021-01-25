@@ -1,5 +1,23 @@
 %% Sequential-counter encoding of vertex cover based on Knuth's improvement on 
-%% Sinz encoding.
-%% vertex: 4, budget: 2, edges: 1-2, 2-3, 2-4, 1-4 
+%% Sinz encoding. Refer to relevant paper for Knuth's contraints.
+%% vertex(n): 4, budget(r): 2, edges: 1-2, 2-3, 2-4, 1-4 
 %% Expected outcome => SAT 
 
+%% Define edges
+edge[1,2]. edge[2,3]. edge[2,4]. edge[1,4].
+
+%% Knuth's first constraint
+%% j bounds = 4 - 2 - 1 = 1
+%% k bounds = 2
+
+j[1..1].
+k[1..2].
+k[X], j[Y] :: ~s(X,Y), s(X,Y+1).
+
+%% Knuth's second constraint
+%% j bounds = 4 - 2 = 2
+%% k bounds = 2
+
+j2[1..2].
+k2[0..2].
+k2[X], j2[Y] :: ~s(X,Y), s(X+1,Y), ~x(X+Y).
