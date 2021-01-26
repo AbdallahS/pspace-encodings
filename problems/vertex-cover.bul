@@ -1,4 +1,9 @@
-edge[U, V] :: s(U), s(V).
+edge[U,V] :: select(U), select(V).
+
+
+
+
+
 
 %% vertex[A], vertex[B], vertex[C], vertex[D], vertex[E], A < B, B < C, C < D, D < E :: ~s(A), ~s(B), ~s(C), ~s(D), ~s(E).
 
