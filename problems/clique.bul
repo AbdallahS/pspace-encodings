@@ -8,12 +8,32 @@ atleast(i, j), at least j among i
 
 %%% A set with 0 or 1 vertices is automatically a clique. A set of 2 vertices is a clique precisely if they are connected by an edge.
 
-for j >= 1
-atleast_{i, j} <-> atleast_{i,j} & (atleast_{i,j-1} | s(i))
+%%% if we have two vertices A, B, a clique, will be A & B if there is an edge, and A | B if there is no edge, and we call the maximum clique atMost
 
-atleast(0,0) is true
-atleast(i,0) is true when i >= 1
-atleast(0,j) is true for every j such that s(j)
+atMost{A,0} = true
+atMost{A,1} = s(A) --soft clause on the vertex'
+
+atMost{B,0} = true
+atMost{B,1} = s(A) | s(B)
+atMost{B,2} = s(A) & s(B)
+
+atMost{C,0} = true
+atMost{C,1} = s(A) | s(B) | s(C)
+atMost{C,2} = atMost{B,1} & s(C) | atMost{B,2}
+atMost{C,3} = s(A) & s(B) & s(C)
+
+atMost{D,0} = true
+atMost{D,1} = s(A) | s(B) | s(C) | s(D)
+atMost{D,2} = atMost{C,1} & s(D) | atMost{C,2}
+atMost{D,3} = atMost{C,2} & s(D) | atMost{C,3}
+atMost{D,4} = atMost{C,3} & s(D)
+
+for i > j
+atMost_{i, j} <-> atMost_{i-1,j} | (atMost_{i-1,j-1} & s(i))
+for i = j
+atMost_{i, j} <-> (atMost_{i-1,j-1} & s(i))
+for j = 1
+atMost{i,1} <-> s(1) | s(2) | .... | s(i)
 
 %%% example:
 

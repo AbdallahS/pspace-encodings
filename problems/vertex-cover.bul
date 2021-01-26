@@ -26,3 +26,14 @@ vs
 sequential counter: 2nk + 2n − 3k + 1 clauses and requires (n − 1) · k auxiliary variables
 
 (-v1 v s1,3) ∧ (-v5v-s4,3)
+
+atleast_{A,0} <-> true
+atleast_{A,1} <-> s(A)
+atleast_{B,0} <-> true
+atleast_{B,1} <-> s(A) | s(B)
+atleast_{B,2} <-> s(A) & s(B)
+
+for example if we have two vertices A and B, the vertex cover is A | B
+then atleast_{B,1} is going to be true if our budget is 1
+
+
