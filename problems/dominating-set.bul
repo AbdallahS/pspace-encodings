@@ -1,0 +1,53 @@
+%%% definition: (Dominating Set). Given an undirected graph G = (V,E), a
+dominating set is a subset S ⊆ V of its nodes such that for all nodes v ∈ V ,
+either v ∈ S or a neighbor u of v is in S.
+
+so for any v in V,
+s(v) | s(u) & edge(u,v)
+
+
+%%% example:
+
+vertex[1..5].
+edge[1,2]. edge[1,3]. edge[1,4].
+edge[2,3]. 
+edge[3,4].
+edge[4,5].
+
+one of them has to be true
+vertex[1] :: s(1)
+vertex[1] :: s(1) | s(2) & edge(1,2)
+vertex[1] :: s(1) | s(3) & edge(1,3)
+vertex[1] :: s(1) | s(4) & edge(1,4)
+
+vertex[2] :: s(2)
+vertex[2] :: s(2) | s(3) & edge(2,3)
+
+vertex[3] :: s(3)
+vertex[3] :: s(3) | s(4) & edge(3,4)
+
+vertex[4] :: s(4)
+vertex[4] :: s(4) | s(5) & edge(4,5)
+
+vertex[5] :: s(5)
+
+simplify
+C1 = vertex[1] :: s(1) | s(2) & edge(1,2) | s(3) & edge(1,3) | s(4) & edge(1,4)
+C2 = vertex[2] :: s(2) | s(3) & edge(2,3)
+C3 = vertex[3] :: s(3) | s(4) & edge(3,4)
+C4 = vertex[4] :: s(4) | s(5) & edge(4,5)
+C5 = vertex[5] :: s(5)
+
+{2,4,5} is a dominating set
+C1 = true
+C2 = true
+C3 = true
+C4 = true
+C5 = true
+
+{1,2,4} is NOT a dominating set
+C1 = true
+C2 = true
+C3 = true
+C4 = true
+C5 = false
