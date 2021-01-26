@@ -1,0 +1,2 @@
+%%% covering edges
+edge[U, V] :: s(U, V).
