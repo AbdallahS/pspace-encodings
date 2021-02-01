@@ -2,13 +2,13 @@
 % # Vertex:6 Budget:4 #
 
 %% vertex(n): 6, budget(r): 4, edges: 1-2, 2-3, 3-4, 4-5, 5-6, 1-6, 2-5, 1-4
-%% Expected outcome => SAT
+%% Expected outcome => UNSAT
 %% Define edges
 vertex[1..6].
 edge[1,2]. edge[2,3]. edge[3,4]. edge[4,5]. edge[5,6].
 edge[1,6]. edge[2,5]. edge[1,4].
 
-% Rule for budget constraints (budget = 4)
-vertex[V1], vertex[V2], vertex[V3], vertex[V4], vertex[V5],
-    V1 < V2, V2 < V3, V3 < V4, V4 < V5 ::
-    ~s(V1), ~s(V2), ~s(V3), ~s(V4), ~s(V5).
+% Rule for budget constraints (budget = 2)
+vertex[V1], vertex[V2], vertex[V3],
+    V1 < V2, V2 < V3 ::
+    ~s(V1), ~s(V2), ~s(V3).

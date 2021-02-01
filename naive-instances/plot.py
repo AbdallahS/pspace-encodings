@@ -1,5 +1,4 @@
 # from scipy.stats import norm
-import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import re
@@ -17,10 +16,9 @@ with open(sys.argv[1], "r") as file:
             num = int(re.search("# Vertex:.", line).group(0)[9:])
             x.append(num)
         else:
-            print("Error", file=sys.stderr)
+            print("Error")
 plt.scatter(x, y)
 plt.xlabel("Number of Vertices")
 plt.ylabel("Time")
 plt.tight_layout()
-plt.xticks(np.arange(min(x), max(x)+1, 1.0))
 plt.savefig("naive-instances/naive_vertex.png")
