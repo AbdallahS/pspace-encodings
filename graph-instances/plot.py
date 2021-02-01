@@ -1,26 +1,29 @@
 # from scipy.stats import norm
-# import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
-import os
+import sys
+import re
 
-x_coordinates = [1, 2, 1]
-y_coordinates = [4, 5, 2]
+x = [1,4,2,4,3,5,3]
+y = []
 
-plt.scatter(x_coordinates, y_coordinates)
+with open(sys.argv[1], "r") as file:
+    for line in file:
+        if re.search("SAT", line):
+            print(line, end="")
+        elif re.search("real", line):
+            y.append(re.search(".m.*s$", line).group(0))
+        else:
+            print("Error", file=sys.stderr)
 
-# plt.plot(x, norm.pdf(x))
-
-plt.savefig("result.png")
-
-
-
-
-
+plt.scatter(x, y)
+plt.xlabel("Number of Vertices")
+plt.ylabel("Time")
+plt.tight_layout()
+plt.xticks(np.arange(min(x), max(x)+1, 1.0))
+plt.savefig("graph-instances/result.png")
 
 
-
-
- # "(time ./test graph-instances/graph1.bul problems/vertex-cover.bul) 2>&1 | grep "real" > temp.txt"
 
 
 

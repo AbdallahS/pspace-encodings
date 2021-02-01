@@ -1,9 +1,10 @@
 #!/bin/bash
 
+echo "Creating Results Graph..."
 cd ..
 for x in graph-instances/*.bul
 do
-    (time ./test $x problems/vertex-cover.bul) 2>&1 | grep "real\|SAT" >> temp.txt
+    (time ./test $x problems/vertex-cover.bul) 2>&1 | grep "real\|SAT" >> graph-instances/temp.txt
 done
-cat temp.txt
-rm temp.txt
+python3 graph-instances/plot.py graph-instances/temp.txt
+rm graph-instances/temp.txt
