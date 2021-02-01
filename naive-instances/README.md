@@ -1,3 +1,21 @@
+# Naive counter complexity analysis
+
+## Dependencies
+
+The testing is done with matplotlib python library
+
+``` pip install matplotlib```
+
+## Usage
+
+Run from ```naive-instances/``` directory
+
+```./graph.bash```
+
+This will iterate through all ```.bul``` files in current repository and plot the real time against number of verticies into a .png file. 
+
+----------------------------------------------------------------------------------------------------------------
+
 # Note for Sequential (can be deleted later)
 
 Original Sinz Cardinality Constraint for Sequential-counter:
