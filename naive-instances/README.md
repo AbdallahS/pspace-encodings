@@ -1,20 +1,21 @@
-# Note for Sequential (can be deleted later)
+# Naive Counter Complexity Analysis
 
-Original Sinz Cardinality Constraint for Sequential-counter:
+## Dependencies
 
-![sinz](https://user-images.githubusercontent.com/65769889/105673913-d3bc3180-5f3a-11eb-99be-6b4b2a46069d.PNG)
+The testing is done with matplotlib python library
 
-Improved Knuth's expression:
+``` pip install matplotlib```
 
-![knuth](https://user-images.githubusercontent.com/65769889/105673909-d28b0480-5f3a-11eb-84a0-721b05514062.PNG)
+## Usage
 
-Using Knuth's improved sequential cardinality constraints, vertex cover can be re-expressed.
-Let r = budget, n = num. vertex.
+Run from ```naive-instances/``` directory
 
-### Sources
+```./graph.bash```
 
-https://arxiv.org/pdf/1810.12975.pdf
+This will iterate through all ```.bul``` files in current repository and plot the real time against number of verticies into a .png file. 
 
-https://www.carstensinz.de/papers/CP-2005.pdf
+## Current Results
 
-https://people.smp.uq.edu.au/RadislavVaisman/papers/vertex-cover_STCO.pdf
+```naive_vertex.png```:
+
+![naive_vertex](https://user-images.githubusercontent.com/65769889/106454615-24a1cc00-64df-11eb-8091-d110fb35ad2e.png)
