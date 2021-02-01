@@ -19,6 +19,7 @@ with open(sys.argv[1], "r") as file:
         else:
             print("Error")
 plt.scatter(x, y)
+plt.title("Time Complexity Analysis for Naive Counter")
 plt.xlabel("Number of Vertices")
 plt.ylabel("Real Time")
 plt.tight_layout()
