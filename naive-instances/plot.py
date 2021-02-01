@@ -18,10 +18,9 @@ with open(sys.argv[1], "r") as file:
             x.append(num)
         else:
             print("Error", file=sys.stderr)
-
 plt.scatter(x, y)
 plt.xlabel("Number of Vertices")
 plt.ylabel("Time")
 plt.tight_layout()
 plt.xticks(np.arange(min(x), max(x)+1, 1.0))
-plt.savefig("graph-instances/naive_vertex.png")
+plt.savefig("naive-instances/naive_vertex.png")
