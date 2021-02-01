@@ -18,4 +18,4 @@ This will iterate through all ```.bul``` files in current repository and plot th
 
 ```naive_vertex.png```:
 
-![naive_vertex](https://user-images.githubusercontent.com/65769889/106454615-24a1cc00-64df-11eb-8091-d110fb35ad2e.png)
+![naive_vertex](https://user-images.githubusercontent.com/65769889/106455367-39cb2a80-64e0-11eb-81e6-cd0759fd3dc6.png)
