@@ -1,9 +1,17 @@
-from scipy.stats import norm
+# from scipy.stats import norm
+# import numpy as np
 import matplotlib.pyplot as plt
-import numpy as np
 
-x = np.arange(-3, 3, 0.01)
 
-plt.plot(x, norm.pdf(x))
-## First graph
-plt.savefig("temp1.png")
+"(time ./test graph-instances/graph1.bul problems/vertex-cover.bul) 2>&1 | grep "real" > temp.txt"
+
+
+
+x_coordinates = [1, 2, 1]
+y_coordinates = [4, 5, 2]
+
+plt.scatter(x_coordinates, y_coordinates)
+
+# plt.plot(x, norm.pdf(x))
+
+plt.savefig("result.png")
