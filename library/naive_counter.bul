@@ -1,0 +1,29 @@
+%% %%%%%% counts ``select'' vertices to be exactly ``budget'' from a set of vertices[1..n]
+
+%% vertex[N], ~vertex[N+1] :: nb_vertices[N].
+
+%%%% budget is exactly 1:
+budget[1], vertex[V1], vertex[V2], V1 < V2 :: ~select(V1), ~select(V2).
+budget[1] :: select(V) : vertex[V].
+
+%%%% budget is at most 2:
+budget[2], vertex[V1], vertex[V2], vertex[V3], V1 < V2, V2 < V3 :: ~select(V1), ~select(V2), ~select(V3).
+
+budget[2] :: hello.
+budget[3] :: bye.
+budget[1] :: iups.
+
+%%%% budget is exactly 2:
+%vertex[V1], vertex[V2], vertex[V3], V1 < V2, V2 < V3 :: ~select(V1), ~select(V2), ~select(V3).
+%???vertex[V1] :: select(V2) : vertex[V2], V1 != V2.
+
+
+%%%% budget is at most 3:
+budget[3], vertex[V1], vertex[V2], vertex[V3], vertex[V4], V1 < V2, V2 < V3, V3 < V4 :: ~select(V1), ~select(V2), ~select(V3), ~select(V4).
+
+
+%%%% budget is at most 4:
+budget[4], vertex[V1], vertex[V2], vertex[V3], vertex[V4], vertex[V5], V1 < V2, V2 < V3, V3 < V4, V4 < V5 :: ~select(V1), ~select(V2), ~select(V3), ~select(V4), ~select(V5).
+
+%%%% budget is at most 5:
+budget[5], vertex[V1], vertex[V2], vertex[V3], vertex[V4], vertex[V5], vertex[V6], V1 < V2, V2 < V3, V3 < V4, V4 < V5, V5 < V6 :: ~select(V1), ~select(V2), ~select(V3), ~select(V4), ~select(V5), ~select(V6).
