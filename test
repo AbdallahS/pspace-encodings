@@ -39,8 +39,8 @@ cat {temp_file}
 #        -g/--ground => show grounded output
 
 # If arguments less than 2 provided, exit
-if len(sys.argv) < 3:
-    print("Usage: ./test [flags] PROBLEM_FILE ... INPUT_FILE ...")
+if len(sys.argv) <= 1:
+    print("Usage: ./test [flags] FILE_1 ... [OTHER_FILES] ...")
     exit()
 
 # Temporary switches for flags
@@ -58,14 +58,16 @@ for i in sys.argv[1:]:
     if re.search("[-\w//]*\.[-\w//]*", i):
         files.append(i)
 
-# If incorrect number of files given, exit
-if len(files) != 2:
+# If no valid files given, exit
+if len(files) <= 0:
     print("Error: Incorrect number of files given", file=sys.stderr)
-    print("Usage: ./test [flags] PROBLEM_FILE ... INPUT_FILE ...")
+    print("Usage: ./test [flags] FILE_1 ... [OTHER_FILES] ...")
     exit()
 
+files = " ".join(files)
+
 os.system(f'''
-    cat {files[0]} {files[1]} > solvers/bule/{temp_file}
+    cat {files} > solvers/bule/{temp_file}
     cd solvers/bule
     {flag1}
     {flag2}
