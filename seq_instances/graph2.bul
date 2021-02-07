@@ -1,9 +1,0 @@
-% The line below is for graph plotter. DO NOT MODIFY
-% # Vertex:4 Budget:1 #
-
-%% vertex(n): 4, budget(r): 1, edges: 1-2, 2-3, 2-4, 1-4 
-%% Expected outcome => UNSAT 
-%% Define edges
-vertex[1..4].
-edge[1,2]. edge[2,3]. edge[2,4]. edge[1,4].
-budget[1].
