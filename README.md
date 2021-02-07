@@ -5,7 +5,7 @@
 ### Test files for satisfiability
 To concatenate and test a problem and input file, run 
 
-```./test file_name1 file_name2```
+```./test list_of_files ```
 
 For example, 
 
