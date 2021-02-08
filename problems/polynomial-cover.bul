@@ -1,0 +1,32 @@
+% Resources
+% http://www.cs.cornell.edu/selman/local/notes-new/pdf/2005_07_23_encoding_cardinality_constraints_in_sat_sinz.pdf
+% https://easychair.org/publications/open/JXzd
+% https://www.carstensinz.de/talks/CP-2005-talk.pdf
+% http://vnsgu.ac.in/dept/publication/vnsgujst41july2015/25.pdf
+
+%% Polynomial Bule Encoding of Vertex Cover (kVC2kSAT) as proposed in the following paper:
+%% http://vnsgu.ac.in/dept/publication/vnsgujst41july2015/25.pdf
+
+vertex[1..7].
+budget[5].
+edge[1,2]. edge[2,3]. edge[3,4]. edge[4,5].
+edge[5,6]. edge[6,7]. edge[2,7]. edge[3,6].
+
+%% If an inter-connection exists (i.e. A[i][j] == 1 as referred to in the paper),
+%% generate the kcnfclause. Clauses created statically
+
+vertex[X], vertex[Y], edge[X, Y] :: v(X, 1), v(X, 2), v(X, 3), v(X, 4), v(X, 5).
+
+%% If an inter-connection does not exist (i.e. A[i][j] == 0 as referred to in the paper),
+%% generate the negated kcnfclause. Clauses created statically
+
+vertex[X], vertex[Y], ~edge[X, Y] :: ~v(X, 1), ~v(X, 2), ~v(X, 3), ~v(X, 4), ~v(X, 5).
+
+% Dynamic Attempt
+% vertex[X], vertex[Y], edge[X, Y] :: v(X, Y).
+% #exists[1], budget[X] :: s(X)?
+% #forall[1], budget[X] :: ~s(X)?
+
+% vertex[X], vertex[Y], edge[X, Y] :: v(X, 1), v(X, 2), v(X, 3).
+% vertex[X], vertex[Y], ~edge[X, Y] :: ~v(X, 1), ~v(X, 2), ~v(X, 3).
+
