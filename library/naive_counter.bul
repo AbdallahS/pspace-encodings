@@ -9,10 +9,6 @@ budget[1] :: select(V) : vertex[V].
 %%%% budget is at most 2:
 budget[2], vertex[V1], vertex[V2], vertex[V3], V1 < V2, V2 < V3 :: ~select(V1), ~select(V2), ~select(V3).
 
-budget[2] :: hello.
-budget[3] :: bye.
-budget[1] :: iups.
-
 %%%% budget is exactly 2:
 %vertex[V1], vertex[V2], vertex[V3], V1 < V2, V2 < V3 :: ~select(V1), ~select(V2), ~select(V3).
 %???vertex[V1] :: select(V2) : vertex[V2], V1 != V2.
