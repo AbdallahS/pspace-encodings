@@ -1,54 +1,47 @@
-%%% covering edges
-edge[U, V] :: s(U), s(V).
-%%% clique selection of at least k, any two selected vertices need to be adjacent 
 vertex[A], vertex[B], ~edge[A,B], A < B :: ~s(A), ~s(B).
+vertex[N], ~vertex[N+1] :: nb_vertices[N].
 
-%% %%% use sequential counter
-%% atleast(i, j), at least j among i
+budget[D] :: range_1[0..D].
+budget[D] :: range_2[1..D].
 
-%% %%% A set with 0 or 1 vertices is automatically a clique. A set of 2 vertices is a clique precisely if they are connected by an edge.
+vertex[I], range_1[J] :: counter(I-1, J), select(I).
+vertex[I], range_2[J] :: counter(I-1, J), counter(I-1, J-1).
 
-%% %%% if we have two vertices A, B, a clique, will be A & B if there is an edge, and A | B if there is no edge, and we call the maximum clique atMost
-
-%% atMost{A,0} = true
-%% atMost{A,1} = s(A) --soft clause on the vertex'
-
-%% atMost{B,0} = true
-%% atMost{B,1} = s(A) | s(B)
-%% atMost{B,2} = s(A) & s(B)
-
-%% atMost{C,0} = true
-%% atMost{C,1} = s(A) | s(B) | s(C)
-%% atMost{C,2} = atMost{B,1} & s(C) | atMost{B,2}
-%% atMost{C,3} = s(A) & s(B) & s(C)
-
-%% atMost{D,0} = true
-%% atMost{D,1} = s(A) | s(B) | s(C) | s(D)
-%% atMost{D,2} = atMost{C,1} & s(D) | atMost{C,2}
-%% atMost{D,3} = atMost{C,2} & s(D) | atMost{C,3}
-%% atMost{D,4} = atMost{C,3} & s(D)
-
-%% for i > j
-%% atMost_{i, j} <-> atMost_{i-1,j} | (atMost_{i-1,j-1} & s(i))
 %% for i = j
-%% atMost_{i, j} <-> (atMost_{i-1,j-1} & s(i))
-%% for j = 1
-%% atMost{i,1} <-> s(1) | s(2) | .... | s(i)
+%% atLeast_{i, j} <-> (atLeast_{i-1,j-1} & s(i))
 
-%% %%% example:
+counter(0,0).
+~counter(0,1).
+nb_vertices[N], budget[D] :: counter(N,D).
+nb_vertices[N], budget[D] :: ~counter(N,D+1).
 
-%% vertex[1..5].
-%% edge[1,2]. edge[1,3].
-%% edge[2,3]. 
-%% edge[4,5].
+vertex[1..3].
+edge[1,2]. edge[2,3]. edge[1,3].
 
-%% vertex[1], vertex[4], not edge[1,4], 1 < 4 :: -s(1), -s(4)
-%% vertex[1], vertex[5], not edge[1,5], 1 < 5 :: -s(1), -s(5)
+%budget[1].
+%budget[2].
+%budget[3].
 
-%% vertex[2], vertex[4], not edge[2,4], 2 < 4 :: -s(2), -s(4)
-%% vertex[2], vertex[5], not edge[2,5], 2 < 5 :: -s(2), -s(5)
 
-%% vertex[3], vertex[4], not edge[3,4], 3 < 4 :: -s(3), -s(4)
-%% vertex[3], vertex[5], not edge[3,5], 3 < 5 :: -s(3), -s(5)
+%% atLeast{A,0} = true
+%% atLeast{A,1} = s(A)
 
-%% {1,2,3}
+%% atLeast{B,0} = true
+%% atLeast{B,1} = atLeast{A,1} | s(B)
+%% atLeast{B,2} = atLeast{A,1} & s(B)
+
+%% atLeast{C,0} = true
+%% atLeast{C,1} = atLeast{B,1} | s(C)
+%% atLeast{C,2} = (atLeast{B,1} & s(C)) | atLeast{B,2} 
+                = (atLeast{B,1} | atLeast{B,2}) & (atLeast{B,2} | s(C))
+%% atLeast{C,3} = atLeast{B,2} & s(C)
+
+%% atLeast{D,0} = true
+%% atLeast{D,1} = atLeast{C,1} | s(D)
+%% atLeast{D,2} = (atLeast{C,1} & s(D) | atLeast{C,2}
+                = (atLeast{C,1} | atLeast{C,2}) & (atLeast{C,2} | s(D))
+%% atLeast{D,3} = (atLeast{C,2} & s(D)) | atLeast{C,3}
+                = (atLeast{C,2} | atLeast{C,3}) & (atLeast{C,3} & s(D))
+%% atLeast{D,4} = atLeast{C,3} & s(D)
+
+
