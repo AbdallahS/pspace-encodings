@@ -1,6 +1,6 @@
 % Icosahedron H3 Coxeter plane
 % Vertices: 11
-% Edges: 40
+% Edges: 30
 
 % Vertices
 vertex[1..11].
