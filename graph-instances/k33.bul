@@ -1,0 +1,6 @@
+vertex[1..6].
+edge[1,4]. edge[1,5]. edge[1,6].
+edge[2,4]. edge[2,5]. edge[2,6].
+edge[3,4]. edge[3,5]. edge[3,6].
+
+budget[3].

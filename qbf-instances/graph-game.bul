@@ -1,0 +1,29 @@
+black[1]. black[2].
+red[3]. red[4]. red[5]. red[6].
+edge[1,3]. edge[2,3]. edge[2,4]. edge[1,5].
+
+red[V1], red[V2], V1!=V2 :: otherRed[V1,V2].
+
+
+#exists[2], black[V] :: select(V)?
+#forall[1], red[V] :: select(V)?
+#exists[3] :: cheat?
+
+black[V1], black[V2], V1<V2 :: ~select(V1), ~select(V2). %% black cannot select more than 1.
+
+
+%select(3), select(4).
+%select(V) : red[V]. % doesn't work because red is an opponent (forall), so can choose to not play by the rules.
+
+
+%% red cannot select more than 1.
+%red[V1], red[V2], V1<V2 :: ~cheat, ~select(V1), ~select(V2). %%% ==       cheat => select(V1) & select(V2)  ==== ~cheat | select(V1) & ~cheat     if we say red has cheated, then red cannot have selected V.
+
+red[V1] :: ~cheat, select(V2) : otherRed[V1,V2].   %%% for any red vertex V1, cheat => then you selected another one.
+
+
+%red[V1], red[V2], V1<V2 :: select(V1), select(V2). %% for any pair, red needs to select at least one.
+
+
+%% red[V2] :: ~select(V2), select(V1) : edge[V1, V2]. %% without the concept of cheating.   any selected red vertex needs to be covered.
+red[V2] :: cheat, ~select(V2), select(V1) : edge[V1, V2]. %%% ~cheat => (select(V2) => select(V1) : edge[V1, V2])

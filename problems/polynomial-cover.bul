@@ -24,8 +24,8 @@ vertex[X], vertex[Y], ~edge[X, Y] :: ~v(X, 1), ~v(X, 2), ~v(X, 3), ~v(X, 4), ~v(
 
 % Dynamic Attempt
 % vertex[X], vertex[Y], edge[X, Y] :: v(X, Y).
-% #exists[1], budget[X] :: s(X)?
-% #forall[1], budget[X] :: ~s(X)?
+#exists[1], budget[X] :: s(X).
+#forall[1], budget[X] :: ~s(X).
 
 % vertex[X], vertex[Y], edge[X, Y] :: v(X, 1), v(X, 2), v(X, 3).
 % vertex[X], vertex[Y], ~edge[X, Y] :: ~v(X, 1), ~v(X, 2), ~v(X, 3).

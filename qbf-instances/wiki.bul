@@ -1,0 +1,16 @@
+%forall x, exists y z, 
+#exists[1] :: x?
+#forall[0] :: y?
+
+x, y.
+~x, ~y.
+
+
+
+
+% exists x, forall y, (x | y) & (-x | -y).
+%Liam always wins
+
+
+% forall y, exists x, (x | y) & (-x | -y).
+%Abdallah wins
