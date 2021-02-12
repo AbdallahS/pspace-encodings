@@ -1,0 +1,26 @@
+% Herschel Graph as named after Alexander Stewart Herschel
+% Vertices: 11
+% Edges: 18
+
+% Vertices
+vertex[1..11].
+
+% Outer edges
+edge[1,2]. edge[2,3]. edge[3,4]. edge[4,1].  
+
+% Outer to inner connecting edges
+edge[4,5]. edge[2,6].
+
+% Outer edges of inner graph
+edge[6,9]. edge[6,8]. 
+edge[7,10]. edge[7,9]. 
+edge[8,10]. edge[8,6]. 
+edge[9,7]. edge[9,6]. 
+edge[10,7]. edge[10,8]. 
+
+% Inner edges
+edge[1,7]. edge[7,5]. edge[5,9]. edge[9,3]. 
+edge[3,10]. edge[10,6]. edge[6,8]. edge[8,1].
+
+% Edges connecting to centre
+edge[7,11]. edge[8,11]. edge[9,11]. edge[10,11]. 
