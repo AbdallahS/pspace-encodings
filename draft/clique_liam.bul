@@ -1,0 +1,25 @@
+vertex[A], vertex[B], ~edge[A,B], A < B :: ~s(A), ~s(B).
+
+vertex[N], ~vertex[N+1] :: nb_vertices[N].
+
+budget[D] :: range_budget0[0..D+1].
+budget[D] :: range_budget1[1..D+1].
+
+vertex[I], range_budget0[J]:: counter(I-1,J), s(I).
+vertex[I], range_budget1[J]:: counter(I-1,J), counter(I-1,J-1).
+vertex[N], range_budget1[D], N==D :: counter(N-1,D-1).
+vertex[N], range_budget1[D], N==D :: s(N).
+
+counter(0,0).
+~counter(0,1).
+nb_vertices[N], budget[D] :: counter(N,D).
+nb_vertices[N], budget[D] :: ~counter(N,D+1).
+
+vertex[0..5].
+edge[0,1]. edge[0,3]. edge[0,4].
+edge[1,2]. edge[1,4].
+edge[2,3]. edge[2,4]. edge[2,5].
+edge[3,4]. edge[3,5].
+edge[4,5].
+
+budget[4].
