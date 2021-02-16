@@ -1,0 +1,14 @@
+%%% atmost based on sinz 2005
+%%% https://www.carstensinz.de/papers/CP-2005.pdf
+
+vertex[N], ~vertex[N+1] :: nb_vertices[N].
+budget[D] :: range_budget[1..D].
+
+~s(1), counter(1,1).
+range_budget[J] :: ~counter(1,J).
+vertex[I] :: ~s(I), counter(I,1).
+vertex[I] :: ~counter(I-1,1), counter(I,1).
+vertex[I], range_budget[J]:: ~s(I), ~counter(I-1,J-1), counter(I,J).
+vertex[I], range_budget[J]:: ~counter(I-1,J), counter(I,J).
+vertex[I], budget[D] :: ~s(I), ~counter(I-1,D).
+nb_vertices[N], budget[D] :: ~s(N), ~counter(N-1,D).
