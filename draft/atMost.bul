@@ -1,4 +1,4 @@
-%%% atmost
+%%% atmost based on sinz 2005
 
 vertex[N], ~vertex[N+1] :: nb_vertices[N].
 budget[D] :: range_budget[1..D].
