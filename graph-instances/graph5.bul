@@ -1,6 +1,5 @@
-%% vertex(n): 4, budget(r): 2, edges: 1-2, 2-3, 2-4, 1-4 
-%% Expected outcome => UNSAT 
-
-vertex[1..5].
-edge[1,2]. edge[2,4]. edge[1,4]. edge[3,5].%% Define edges
-budget[2].
+%% vertex(n): 7, budget(r): 5, edges: 1-2, 2-3, 3-4, 4-5, 5-6, 6-7, 2-7, 3-6
+%% Expected outcome => SAT 
+vertex[1..7].
+edge[1,2]. edge[2,3]. edge[3,4]. edge[4,5].
+edge[5,6]. edge[6,7]. edge[2,7]. edge[3,6].

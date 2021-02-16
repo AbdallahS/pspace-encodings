@@ -1,0 +1,4 @@
+% Rule for budget constraints (budget = 4)
+vertex[V1], vertex[V2], vertex[V3], vertex[V4], vertex[V5],
+    V1 < V2, V2 < V3, V3 < V4, V4 < V5 ::
+    ~s(V1), ~s(V2), ~s(V3), ~s(V4), ~s(V5).

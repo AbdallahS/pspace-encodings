@@ -5,7 +5,7 @@
 ### Test files for satisfiability
 To concatenate and test a problem and input file, run 
 
-```./test file_name1 file_name2```
+```./test list_of_files ```
 
 For example, 
 
@@ -71,29 +71,6 @@ s(4), s(5).
 
 s SAT
 ```
-
-## Budget generator for vertex cover
-
-The ```budget``` file located in ```graph-instances``` allows easy constuction of budget constraint in bule (for naive encodings).
-
-To execute, change current directory to ```graph-instances``` and run
-
-```./budget budget_requirement```
-
-For example, 
-
-```./budget 4```
-
-will output
-
-```
-% Rule for budget constraints (budget = 4)
-vertex[V1], vertex[V2], vertex[V3], vertex[V4], vertex[V5],
-    V1 < V2, V2 < V3, V3 < V4, V4 < V5 ::
-    ~s(V1), ~s(V2), ~s(V3), ~s(V4), ~s(V5).
-```
-
-which can be manually copy-pasted into input files.
 
 ## Attributions
 

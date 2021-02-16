@@ -1,0 +1,19 @@
+% Petersen Graph as named after Julius Petersen
+% Vertices: 10     
+% Edges: 15
+
+% Vertices
+vertex[1..10].
+
+% Outer edges
+edge[1,2]. edge[2,3]. edge[3,4]. edge[4,5]. edge[5,1]. 
+
+% Outer to inner connecting edges
+edge[1,6]. edge[2,7]. edge[3,8]. edge[4,9]. edge[5,10]. 
+
+% Inner edges
+edge[6,9]. edge[6,8]. 
+edge[7,10]. edge[7,9]. 
+edge[8,10]. edge[8,6]. 
+edge[9,7]. edge[9,6]. 
+edge[10,7]. edge[10,8]. 
