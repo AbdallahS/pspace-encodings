@@ -1,0 +1,3 @@
+vertex[A] :: select(A).
+edge[A,B] :: select(A) & select(B).
+vertex[A], vertex[B], edge[A,B], A < B :: (path[A,B] & ~path[B,A]), (~path[A,B] & path[B,A]).

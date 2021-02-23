@@ -1,0 +1,3 @@
+%%% ~(A & B) = ~A, ~B
+%%% if there is an edge between A and B then A and B can't have same color
+vertex[A], vertex[B], edge[A,B], A < B :: ~color(A), ~color(B).
