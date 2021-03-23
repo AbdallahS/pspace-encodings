@@ -1,12 +1,12 @@
 %%% gttt board
-player[1..2].
-t[1..9]. %% check this
+player[black;white].
+
 vertex[N], ~vertex[N+1] :: vertexLast[N].
 vertexLast[N] :: lastTimePoint[N+1].
-lastTimePoint[F] :: t[0..F].
-black[1]. white[2].
-time[T], T#mod2=1:: timeP[1,T].
-time[T], T#mod2=0:: timeP[2,T].
+lastTimePoint[F] :: t[1..F].
+
+t[T], T#mod2=1:: timeP[black,T].
+t[T], T#mod2=0:: timeP[white,T].
 hyperedge[A,E,V] :: isHyperedge[A,E].
 
 dim[0..2].
@@ -18,46 +18,60 @@ player[A], dim[I], maxDim[D] :: hyperedge[A, 2*D+1, (D-1)*(I+1)].
 player[A], dim[I], maxDim[D] :: hyperedge[A, 2*D+2, (D+1)*I].
 
 vertex[V], vertex[I], vertexLast[N], 2**I <= N :: getBit[V,I,(V/(2**I))#mod2].
+getBit[_,I,_] :: bit[I].
+
+%%quantification
+%% () search variables, [] grounding variables
+#exists :: time(0).
+#exists, vertex[V], player[A] :: board(A,V,0).
+#exists, t[T] :: time(T).
+#forall, timeP[white,T], bit[I] :: move(I,T).
+#exists, timeP[black,T], bit[I] :: move(I,T).
+#exists, vertex[V], player[A], t[T] :: board(A,V,T).
+#exists, hyperedge[black,E,V] :: win(E).
+%% the nesting of the quantifiers is not correct yet
+%% On the innermost level we have, we only have one level atm.
 
 %% clause type 1
-%% boundary condition?
 t[T] :: ~time(T), time(T-1).
 
 %% clause type 2
 player[A], vertex[V] :: ~board(A,V,0).
 
 %% clause type 3
-black[P], white[Q], vertex[V], time[T] :: ~board(P, V, T), ~board(Q, V, T).
+vertex[V], time[T] :: ~board(black, V, T), ~board(white, V, T).
 
 %% clause type 4
 player[A], vertex[V], t[T] :: ~board(A,V,T-1), board(A,V,T).
 
 %% clause type 5
-player[A], vertex[V], time[T], ~timeP[A,T] :: board(A,V,T-1), ~board(A,V,T).
+player[A], vertex[V], t[T], ~timeP[A,T] :: board(A,V,T-1), ~board(A,V,T).
 
 %% clause type 6
-player[A], vertex[V], time[T] :: board(A,V,T-1), ~board(A,V,T).
+player[A], vertex[V], t[T] :: board(A,V,T-1), ~board(A,V,T).
 
 %%% clause type 7
-black[B], white[W], vertex[V], timeP[W,T], getBit[V,I,1], getBit[V,I,2] :: ~move(I, T), ~move(I, T), ~timeP[W,T], board(P, V, T-1), board(Q, V, T), move(I, T) : .
+%%% : getBit[V,I,1] has square brackets because we are defining I. on the clause side we have an I but it is not defined earlier, get bits defines I.
+vertex[V], timeP[white,T] :: ~time(T), board(black, V, T-1), board(white, V, T), ~move(I,T) : getBit[V,I,1], move(I,T) : getBit[V,I,0].
 
 %%% clause type 8
-black[P], vertex[V], timeP[P,T], getBit[V,I,1] :: board(P, V, T-1), ~board(P, V, T), move(I, T).
+vertex[V], timeP[black,T], getBit[V,I,1] :: board(black, V, T-1), ~board(black, V, T), move(I, T).
 
-%%% clause type 9, get bit 0 or 2?
-black[B], vertex[V], timeP[B,T], getBit[V,I,2] :: board(B, V, T-1), ~board(B, V, T), ~move(I, T).
+%%% clause type 9
+vertex[V], timeP[black,T], getBit[V,I,0] :: board(black, V, T-1), ~board(black, V, T), ~move(I, T).
 
 %%% clause type 10
-black[B], isHyperedge[B, E] :: win(E) : hyperedge[B,E,V].
+win(E) : hyperedge[black,E,V].
 
 %%% clause type 11
-black[B], isHyperedge[B, E], lastTimePoint[F] :: ~win(E), board(B, V, F).
+hyperedge[black,E,V], lastTimePoint[F] :: ~win(E), board(black, V, F).
 
 %% clause type 12
-white[W], isHyperedge[W, E], lastTimePoint[F] :: ~board(W, V, F) : hyperedge[W,E,V].
+%% we can use _ to represent any vertex here or use isHyperedge
+hyperedge[white,E,_], lastTimePoint[F] :: ~board(white,V,F) : hyperedge[white,E,V].
 
-%% clause type 13 where player B=1
-black[B], isHyperedge[B, E], lastTimePoint[F] :: win(E), ~board(B, V, F) : hyperedge[B,E,V].
+%% clause type 13
+hyperedge[black,E,_], lastTimePoint[F] :: win(E), ~board(black, V, F) : hyperedge[black,E,V].
 
 
 
