@@ -1,13 +1,13 @@
 %%% gttt board
-player[black;white].
-
+player[black].
+player[white].
 vertex[N], ~vertex[N+1] :: vertexLast[N].
-vertexLast[N] :: lastTimePoint[N+1].
+vertexLast[N] :: lastTimePoint[N+1-2].
 lastTimePoint[F] :: t[1..F].
 
-t[T], T#mod2=1:: timeP[black,T].
-t[T], T#mod2=0:: timeP[white,T].
-hyperedge[A,E,V] :: isHyperedge[A,E].
+t[T], T#mod2==1 :: timeP[black,T].
+t[T], T#mod2==0 :: timeP[white,T].
+hyperedge[A,E,_] :: isHyperedge[A,E].
 
 dim[0..2].
 dim[I], ~dim[I+1] :: maxDim[I+1].
@@ -22,13 +22,13 @@ getBit[_,I,_] :: bit[I].
 
 %%quantification
 %% () search variables, [] grounding variables
-#exists :: time(0).
-#exists, vertex[V], player[A] :: board(A,V,0).
-#exists, t[T] :: time(T).
-#forall, timeP[white,T], bit[I] :: move(I,T).
-#exists, timeP[black,T], bit[I] :: move(I,T).
-#exists, vertex[V], player[A], t[T] :: board(A,V,T).
-#exists, hyperedge[black,E,V] :: win(E).
+#exists[0] :: time(0)?
+#exists[0], vertex[V], player[A] :: board(A,V,0)?
+#exists[T], t[T] :: time(T)?
+#forall[T+1], timeP[white,T], bit[I] :: move(I,T)?
+#exists[T+1], timeP[black,T], bit[I] :: move(I,T)?
+#exists[T+1], vertex[V], player[A], t[T] :: board(A,V,T)?
+#exists[F], lastTimePoint[F], hyperedge[black,E,_] :: win(E)?
 %% the nesting of the quantifiers is not correct yet
 %% On the innermost level we have, we only have one level atm.
 
@@ -36,7 +36,11 @@ getBit[_,I,_] :: bit[I].
 t[T] :: ~time(T), time(T-1).
 
 %% clause type 2
-player[A], vertex[V] :: ~board(A,V,0).
+player[A], vertex[V], ~init[A,V] :: ~board(A,V,0).
+player[A], vertex[V], init[A,V] :: board(A,V,0).
+%% player[A], vertex[V] :: ~board(A,V,0).
+init[black,0].
+init[white,1].
 
 %% clause type 3
 vertex[V], time[T] :: ~board(black, V, T), ~board(white, V, T).
@@ -61,7 +65,7 @@ vertex[V], timeP[black,T], getBit[V,I,1] :: board(black, V, T-1), ~board(black, 
 vertex[V], timeP[black,T], getBit[V,I,0] :: board(black, V, T-1), ~board(black, V, T), ~move(I, T).
 
 %%% clause type 10
-win(E) : hyperedge[black,E,V].
+win(E) : hyperedge[black,E,_].
 
 %%% clause type 11
 hyperedge[black,E,V], lastTimePoint[F] :: ~win(E), board(black, V, F).
@@ -73,8 +77,10 @@ hyperedge[white,E,_], lastTimePoint[F] :: ~board(white,V,F) : hyperedge[white,E,
 %% clause type 13
 hyperedge[black,E,_], lastTimePoint[F] :: win(E), ~board(black, V, F) : hyperedge[black,E,V].
 
-
-
+%% example
+%% b|w|-
+%% -|-|-
+%% -|-|-
 
 
 
