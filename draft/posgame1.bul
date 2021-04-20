@@ -52,7 +52,7 @@ player[A], vertex[V], t[T] :: ~board(A,V,T-1), board(A,V,T).
 player[A], vertex[V], t[T], ~timeP[A,T] :: board(A,V,T-1), ~board(A,V,T).
 
 %% clause type 6
-player[A], vertex[V], t[T] :: board(A,V,T-1), ~board(A,V,T).
+player[A], vertex[V], t[T] :: time(T), board(A,V,T-1), ~board(A,V,T).
 
 %%% clause type 7
 %%% : getBit[V,I,1] has square brackets because we are defining I. on the clause side we have an I but it is not defined earlier, get bits defines I.
