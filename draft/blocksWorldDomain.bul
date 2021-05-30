@@ -1,0 +1,68 @@
+%%% Definition of the problem
+block[a].
+block[b].
+table[x].
+table[y].
+time[1..4].
+
+%%% describe the fluents
+#exists[T], time[T], block[B] :: clear(B,T)?
+#exists[T], time[T], block[B], table[E] :: on(B,E,T)?
+#exists[T], time[T], block[A], block[B] :: on(A,B,T)?
+
+%%% we need more variables for each action and each time stamp
+%%% we want to have some clauses 
+%%% we will get move(b,y,2), then move(a,y,3) then stack(a,b,y,4)
+%%% move(b,y,2) requires ~on(b,y,1), and clear(b)
+%%% move(a,y,3) requires ~on(a,y,2), and clear(a)
+%%% stack(a,b,y,4) requires on(a,y,3) and on(b,y,3) and clear(a) and clear(b)
+
+block[B], time[T], table[E] :: canMove(B,E,T+1) | ~on(B,E,T). 
+block[B], time[T], table[E] :: canMove(B,E,T+1) | clear(B,T).
+
+block[B], time[T], table[E] :: canStack(B,E,T+1) | ~on(B,E,T).
+block[A], block[B], time[T], table[E], A != B :: canStack(B,E,T+1) | clear(B,T).
+block[A], block[B], time[T], table[E], A != B :: canStack(B,E,T+1) | clear(A,T).
+
+block[B], table[E], time[T], init[B,E,T] :: on[B,E,1].
+block[B], table[E], time[T], ~init[B,E,T] :: ~on[B,E,1].
+init[a,x,1].
+init[b,x,1].
+
+
+%%% SAT instance
+on(a,b,4).
+on(b,y,4).
+clear(a,4).
+
+%%% UNSAT instance
+
+
+%%% expected output
+%%% on(a,x,1).
+%%% on(b,x,1).
+%%% clear(a,1).
+%%% clear(b,1).
+
+
+%%% on(a,x,2).
+%%% on(b,y,2).
+%%% clear(a,2).
+%%% clear(b,2).
+
+%%% on(a,y,3).
+%%% on(b,y,3).
+%%% clear(a,3).
+%%% clear(b,3).
+
+%%% on(a,b,4).
+%%% on(b,y,4).
+%%% clear(a,4).
+
+
+
+%%% sequence of states
+%%% (on a x)(on b x)(clear a)(clear b)
+%%% (on a x)(clear a)(clear b)(on b y)
+%%% (on a y)(on b y)(clear a)(clear b)
+%%% (on a b)(on b y)(clear a)
