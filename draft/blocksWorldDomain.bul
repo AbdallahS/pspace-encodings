@@ -4,36 +4,110 @@ block[b].
 table[x].
 table[y].
 time[1..4].
+time[T], time[T+1] :: actionTime[T].
+
+%%% first approach
+%%% final[4].
+%%% final[T] :: time[1..T].
+%%% second approach
+time[T], ~time[T+1] :: finalTime[T].
 
 %%% describe the fluents
 #exists[T], time[T], block[B] :: clear(B,T)?
 #exists[T], time[T], block[B], table[E] :: on(B,E,T)?
 #exists[T], time[T], block[A], block[B] :: on(A,B,T)?
+#exists[T], actionTime[T], block[B], table[E] :: canMove(B,E,T+1)?
 
-%%% we need more variables for each action and each time stamp
-%%% we want to have some clauses 
-%%% we will get move(b,y,2), then move(a,y,3) then stack(a,b,y,4)
-%%% move(b,y,2) requires ~on(b,y,1), and clear(b)
-%%% move(a,y,3) requires ~on(a,y,2), and clear(a)
-%%% stack(a,b,y,4) requires on(a,y,3) and on(b,y,3) and clear(a) and clear(b)
+block[B], table[E], table[F], E!=F :: moveElements[B,E,F].
+moveElements[A,E,F], moveElements[B,G,H], A != B :: pairedMoveElements[A,E,F,B,G,H].
+moveElements[A,E,F], moveElements[B,G,H], E != G :: pairedMoveElements[A,E,F,B,G,H].
+moveElements[A,E,F], moveElements[B,G,H], F != H :: pairedMoveElements[A,E,F,B,G,H].
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#exists[T], actionTime[T], block[B], table[E], table[F], E!=F :: move(B,E,F,T)?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-block[B], time[T], table[E] :: canMove(B,E,T+1) | ~on(B,E,T). 
-block[B], time[T], table[E] :: canMove(B,E,T+1) | clear(B,T).
+block[A], block[B], table[E], A!=B :: stackElements[A,B,E].
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#exists[T], actionTime[T], stackElements[A,B,E] :: stack(A,B,E,T)?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-block[B], time[T], table[E] :: canStack(B,E,T+1) | ~on(B,E,T).
-block[A], block[B], time[T], table[E], A != B :: canStack(B,E,T+1) | clear(B,T).
-block[A], block[B], time[T], table[E], A != B :: canStack(B,E,T+1) | clear(A,T).
+%%% construct canMove constraints
+%%% we want ~on(B,E,T) and clear(T) <-> canMove(B,E,T+1)
 
-block[B], table[E], time[T], init[B,E,T] :: on[B,E,1].
-block[B], table[E], time[T], ~init[B,E,T] :: ~on[B,E,1].
-init[a,x,1].
-init[b,x,1].
+%%% ~on(B,E,T) and clear(T) -> canMove(B,E,T+1)
+%%% ~A or B where A is ~on(B,E,T) and clear(T) and B is canMove(B,E,T+1)
+%%% not (X and Y) = not X or not Y = on(B,E,T) or ~clear(T)
+%%% # on(B,E,T) or ~clear(T) or canMove(B,E,T+1)
 
+%%% canMove(B,E,T+1) -> ~on(B,E,T) and clear(T)
+%%% ~A or B where A is canMove(B,E,T+1) and B is ~on(B,E,T) and clear(T)
+%%% ~canMove(B,E,T+1) or (~on(B,E,T) and clear(T)
+%%% # ~canMove(B,E,T+1) or ~on(B,E,T)
+%%% # ~canMove(B,E,T+1) or clear(T)
+
+%%% # clauses simpler presentation
+%%% ~on(B,E,T) and clear(T) -> canMove(B,E,T+1)
+%%% canMove(B,E,T+1) -> ~on(B,E,T) and clear(T)
+block[B], actionTime[T], table[E] :: ~on(B,E,T) & clear(B,T) -> canMove(B,E,T+1).
+block[B], actionTime[T], table[E] :: canMove(B,E,T+1) -> ~on(B,E,T).
+block[B], actionTime[T], table[E] :: canMove(B,E,T+1) -> clear(B,T).
+
+%%% construct canStack constraints
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% on(A,E,T) and on(B,E,T) and clear(A,T) and clear(B,T), A!=B -> canStack(A,B,E,T+1)
+block[A], block[B], table[E], A!=B :: on(A,E,T) & on(B,E,T) & clear(A,T) & clear(B,T) -> canStack(A,B,E,T+1).
+
+%%% canStack(A,B,E,T+1) -> on(A,E,T) and on(B,E,T) and clear(A,T) and clear(B,T), A!=B
+block[A], actionTime[T], block[B], table[E], A!=B :: canStack(A,B,E,T+1) -> on(A,E,T).
+block[A], actionTime[T], block[B], table[E], A!=B :: canStack(A,B,E,T+1) -> on(B,E,T).
+block[A], actionTime[T], block[B], table[E], A!=B :: canStack(A,B,E,T+1) -> clear(A,T).
+block[A], actionTime[T], block[B], table[E], A!=B :: canStack(A,B,E,T+1) -> clear(B,T).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+block[B], table[E], initOn[B,E] :: on(B,E,1).
+block[B], table[E], ~initOn[B,E] :: ~on(B,E,1).
+initOn[a,x].
+initOn[b,x].
+
+block[B], initClear[B] :: clear(B,1).
+block[B], ~initClear[B] :: ~clear(B,1).
+initClear[a].
+initClear[b].
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% we are modeling the effects of our actions
+%%% move: if we choose to move at time T, for example move block A from x to y
+block[B], table[E], actionTime[T], table[F], E!=F :: move(B,E,F,T+1) -> on(B,E,T+1).
+block[B], table[E], actionTime[T], table[F], E!=F :: move(B,E,F,T+1) -> ~on(B,F,T+1).
+
+%%% stack
+block[A], block[B], actionTime[T], table[E], A != B :: stack(A,B,E,T+1) -> ~clear(A,T+1).
+block[A], block[B], actionTime[T], table[E], A != B :: stack(A,B,E,T+1) -> clear(B,T+1).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% three operations, a b c, choose one of the three
+
+
+%%% time[] :: moveElements[] : move() | stackElements[] : stack() | unstackElements[] : unstack().
+%%% not(a and b) and not(a and c) and not(b and c)
+%%% not(a and a') and not(b and b') and not(c and c')
+%%% (not a or not b)...
+%%% (not a or not a')
+%%% a is move(), b is stack(), c is unstack()
+%%% move is an operator. 
+
+
+%%% how do we remove duplicates here? issue on github.
+time[T], moveElements[B,E,F], stackElements[A,B,E] :: ~move(B,E,F,T) | ~stack(A,B,E,T).
+%%%time[T], moveElements[A,E,F], moveElements[B,G,H], A != B :: ~move(A,E,F,T) | ~move(B,G,H,T) | debug.
+%%%time[T], moveElements[A,E,F], moveElements[B,G,H], E != G :: ~move(A,E,F,T) | ~move(B,G,H,T) | debug.
+%%%time[T], moveElements[A,E,F], moveElements[B,G,H], F != H :: ~move(A,E,F,T) | ~move(B,G,H,T) | debug.
+time[T], pairedMoveElements[A,E,F,B,G,H] :: ~move(A,E,F,T) | ~move(B,G,H,T) | debug.
+%%% rule out stack
 
 %%% SAT instance
-on(a,b,4).
-on(b,y,4).
-clear(a,4).
+finalTime[T] :: on(a,b,T).
+finalTime[T] :: on(b,y,T).
+finalTime[T] :: clear(a,T).
 
 %%% UNSAT instance
 
@@ -44,16 +118,17 @@ clear(a,4).
 %%% clear(a,1).
 %%% clear(b,1).
 
-
 %%% on(a,x,2).
 %%% on(b,y,2).
 %%% clear(a,2).
 %%% clear(b,2).
 
+
 %%% on(a,y,3).
 %%% on(b,y,3).
 %%% clear(a,3).
 %%% clear(b,3).
+
 
 %%% on(a,b,4).
 %%% on(b,y,4).
